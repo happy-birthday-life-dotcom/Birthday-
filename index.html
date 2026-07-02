@@ -1,63 +1,192 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Happy Birthday Ayesha ❤️</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body{
-margin:0;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-background:linear-gradient(135deg,#ff4b91,#6a5cff);
-font-family:Arial,sans-serif;
-color:white;
-text-align:center;
-overflow:hidden;
-}
-.card{
-background:rgba(255,255,255,.15);
-padding:30px;
-border-radius:20px;
-backdrop-filter:blur(10px);
-box-shadow:0 10px 30px rgba(0,0,0,.3);
-max-width:350px;
-}
-h1{
-font-size:2.2em;
-}
-p{
-font-size:1.1em;
-line-height:1.6;
-}
-button{
-padding:12px 24px;
-font-size:18px;
-border:none;
-border-radius:30px;
-background:white;
-color:#ff4b91;
-cursor:pointer;
-font-weight:bold;
-}
-</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Happy Birthday, Ayesha — A Journey Written Just For You</title>
+<meta name="description" content="A private, cinematic birthday journey for Ayesha — a letter, a gallery, a prayer, and a gift, all in one night sky.">
+<meta name="theme-color" content="#050816">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Great+Vibes&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="card">
-<h1>🎂 Happy Birthday Ayesha ❤️</h1>
-
-<p>
-Wishing you a day filled with happiness, laughter and beautiful memories.
-May all your dreams come true. ✨
-</p>
-
-<button onclick="alert('Happy Birthday! 🎉 May Allah bless you with happiness, health and success. ❤️')">
-Open Your Surprise 🎁
-</button>
-
+<!-- ============ LOADER ============ -->
+<div class="loader" id="loader">
+  <div class="loader-inner">
+    <span class="loader-star">✦</span>
+    <p class="loader-text">preparing your surprise</p>
+  </div>
 </div>
 
+<!-- ============ GLOBAL CANVAS LAYERS ============ -->
+<canvas id="star-canvas"></canvas>
+<canvas id="fx-canvas"></canvas>
+
+<!-- ============ MUSIC CONTROL (global, appears after unlock) ============ -->
+<audio id="bgMusic" src="music/birthday.mp3" loop preload="auto"></audio>
+<button id="musicToggle" class="music-toggle hidden" aria-label="Toggle music">
+  <span class="music-icon">
+    <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
+  </span>
+</button>
+
+<!-- progress rail -->
+<div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div>
+
+<main id="main">
+
+  <!-- ================= SECTION 1 : GATE ================= -->
+  <section class="section gate" id="section1">
+    <div class="gate-inner">
+      <p class="eyebrow reveal-up">for ayesha</p>
+      <h1 class="gate-title reveal-up">A Journey Written<br>Just For <span class="gold">You</span></h1>
+      <p class="gate-sub reveal-up">There are some surprises that cannot be wrapped inside a gift box.</p>
+      <button class="open-btn reveal-up" id="openSurpriseBtn">
+        <span class="open-btn-glow"></span>
+        <span class="open-btn-label">Open My Surprise</span>
+      </button>
+    </div>
+    <div class="scroll-hint">
+      <span class="scroll-line"></span>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 2 : COUNTDOWN + CELEBRATION ================= -->
+  <section class="section celebration" id="section2">
+    <div class="countdown-wrap" id="countdownWrap">
+      <div class="countdown-num" id="countdownNum">3</div>
+    </div>
+
+    <div class="flash" id="flash"></div>
+
+    <div class="celebration-content hidden" id="celebrationContent">
+      <div class="cake" aria-hidden="true">
+        <div class="cake-flame"></div>
+        <div class="cake-candle"></div>
+        <div class="cake-tier cake-top"><span class="icing"></span></div>
+        <div class="cake-tier cake-bottom"><span class="icing"></span></div>
+        <div class="cake-plate"></div>
+      </div>
+      <h2 class="hb-title">
+        <span class="hb-line1">Happy Birthday</span>
+        <span class="hb-line2">AYESHA <span class="heart">❤</span></span>
+      </h2>
+    </div>
+
+    <div class="balloons" id="balloons" aria-hidden="true"></div>
+  </section>
+
+  <!-- ================= SECTION 3 : LETTER ================= -->
+  <section class="section letter-section" id="section3">
+    <div class="letter-card glass">
+      <p class="eyebrow">a letter, for you</p>
+      <div class="letter-body" id="letterBody"></div>
+      <span class="type-cursor" id="typeCursor">|</span>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 4 : GALLERY ================= -->
+  <section class="section gallery-section" id="section4">
+    <p class="eyebrow center reveal-up">moments</p>
+    <h2 class="section-title center reveal-up">Pieces of Our Story</h2>
+    <div class="gallery-grid">
+      <figure class="gallery-card glass reveal-up" data-full="images/photo1.jpg"><img loading="lazy" src="images/photo1.jpg" alt="Memory one"></figure>
+      <figure class="gallery-card glass reveal-up" data-full="images/photo2.jpg"><img loading="lazy" src="images/photo2.jpg" alt="Memory two"></figure>
+      <figure class="gallery-card glass reveal-up" data-full="images/photo3.jpg"><img loading="lazy" src="images/photo3.jpg" alt="Memory three"></figure>
+      <figure class="gallery-card glass reveal-up" data-full="images/photo4.jpg"><img loading="lazy" src="images/photo4.jpg" alt="Memory four"></figure>
+      <figure class="gallery-card glass reveal-up" data-full="images/photo5.jpg"><img loading="lazy" src="images/photo5.jpg" alt="Memory five"></figure>
+      <figure class="gallery-card glass reveal-up" data-full="images/photo6.jpg"><img loading="lazy" src="images/photo6.jpg" alt="Memory six"></figure>
+      <figure class="gallery-card glass reveal-up" data-full="images/photo7.jpg"><img loading="lazy" src="images/photo7.jpg" alt="Memory seven"></figure>
+      <figure class="gallery-card glass reveal-up" data-full="images/photo8.jpg"><img loading="lazy" src="images/photo8.jpg" alt="Memory eight"></figure>
+    </div>
+  </section>
+
+  <!-- lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
+    <img id="lightboxImg" src="" alt="Enlarged memory">
+  </div>
+
+  <!-- ================= SECTION 5 : SONG ================= -->
+  <section class="section song-section" id="section5">
+    <p class="eyebrow center reveal-up">her song</p>
+    <h2 class="section-title center reveal-up">A Song For Ayesha</h2>
+    <div class="song-player glass reveal-up">
+      <button class="song-play-btn" id="songPlayBtn" aria-label="Play song">
+        <svg id="songPlayIcon" viewBox="0 0 24 24"><polygon points="6,4 20,12 6,20"></polygon></svg>
+        <svg id="songPauseIcon" class="hidden" viewBox="0 0 24 24"><rect x="5" y="4" width="5" height="16"></rect><rect x="14" y="4" width="5" height="16"></rect></svg>
+      </button>
+      <div class="song-meta">
+        <p class="song-name">Birthday Song</p>
+        <div class="song-bar"><div class="song-bar-fill" id="songBarFill"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 6 : DUA ================= -->
+  <section class="section dua-section" id="section6">
+    <div class="moon"></div>
+    <div class="dua-lines" id="duaLines">
+      <p data-line>Ya Allah,</p>
+      <p data-line>Protect her.</p>
+      <p data-line>Bless her.</p>
+      <p data-line>Guide her.</p>
+      <p data-line>Grant her happiness.</p>
+      <p data-line>Grant her peace.</p>
+      <p data-line>Keep her smiling.</p>
+      <p data-line class="ameen">Ameen.</p>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 7 : GIFT ================= -->
+  <section class="section gift-section" id="section7">
+    <p class="eyebrow center reveal-up">one more thing</p>
+    <h2 class="section-title center reveal-up">A Small Gift</h2>
+
+    <div class="gift-box-wrap" id="giftBoxWrap">
+      <div class="gift-box" id="giftBox">
+        <div class="gift-lid"></div>
+        <div class="gift-base"></div>
+        <div class="gift-ribbon-v"></div>
+        <div class="gift-ribbon-h"></div>
+        <div class="gift-bow">
+          <span></span><span></span>
+        </div>
+      </div>
+      <p class="gift-hint">tap to open</p>
+    </div>
+
+    <div class="gift-message glass hidden" id="giftMessage">
+      <p>If I could gift you anything today,<br>it wouldn't be something money could buy.</p>
+      <p>I'd wish for a lifetime of happiness,<br>peace,<br>good health,<br>success,<br>and countless reasons to smile.</p>
+      <p class="gift-signoff">Happy Birthday Ayesha.</p>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 8 : FINALE ================= -->
+  <section class="section finale-section" id="section8">
+    <div class="lanterns" id="lanterns" aria-hidden="true"></div>
+    <p class="finale-line1 reveal-up">Some gifts are opened once...</p>
+    <p class="finale-line2 reveal-up">But I hope this memory stays with you forever.</p>
+
+    <h2 class="finale-title reveal-up">
+      <span>Happy Birthday</span>
+      <span class="gold">AYESHA ❤</span>
+    </h2>
+
+    <p class="finale-prayer reveal-up">With prayers and best wishes</p>
+    <p class="finale-signature reveal-up">— Mutayyab</p>
+
+    <button class="replay-btn reveal-up" id="replayBtn">Relive The Journey</button>
+  </section>
+
+</main>
+
+<script src="script.js"></script>
 </body>
 </html>
